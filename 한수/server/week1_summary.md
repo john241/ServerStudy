@@ -11,4 +11,4 @@
 - 스레드마다 스택을 가짐(함수의 로컬 변수들이 스레드마다 존재)
 - 싱글스레드 : 동시에 하나만 실행되는 프로그램
 
-![01](https://github.com/Han-Ho-Study/ServerStudy/new/main/한수/week1_image1.jpg)
+![01](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/week1_image1.jpg)

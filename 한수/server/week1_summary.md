@@ -17,6 +17,9 @@
 ![01](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/week1_image1.jpg)
 
 ## 운영체제별 스레드 생성 함수
+<details>
+<summary>코드 접기/펼치기</summary>
+
 ```cpp
 //윈도우일때
 DWORD threadID;
@@ -37,6 +40,8 @@ thread_create(&thread, NULL, ThreadProc, &threadParam);
 //모던 c++
 std::thread t1(ThreadProc, 123);
 ```
+</details>
+
 ## 멀티스레드 프로그래밍을 해야하는 상황
 1. 오래 걸리는 일 하나와 빨리 끝나는 일 여럿을 같이 해야 할 때
 2. 어떤 긴 처리를 진행하는 동안 다른 짧은 일을 처리해야 할 때

@@ -143,20 +143,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppManager.cpp" />
+    <ClCompile Include="MatchingFacade.cpp" />
     <ClCompile Include="JoinThread.cpp" />
     <ClCompile Include="Lock.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MatchingThread.cpp" />
+    <ClCompile Include="TimerThread.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppManager.h" />
     <ClInclude Include="JoinThread.h" />
     <ClInclude Include="Lock.h" />
-    <ClInclude Include="MatchingThread.h" />
+    <ClInclude Include="MatchingFacade.h" />
+    <ClInclude Include="TimerThread.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="Thread.h" />

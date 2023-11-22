@@ -30,4 +30,3 @@ private:
 private:
 	CLock m_RoomLock;
 };
-

@@ -1,16 +1,14 @@
-#include "JoinThread.h"
+#include "TimerThread.h"
 #include "AppManager.h"
-#include "PlayerManager.h"
-
-CJoinThread::CJoinThread()
+CTimerThread::CTimerThread()
 {
 }
 
-CJoinThread::~CJoinThread()
+CTimerThread::~CTimerThread()
 {
 }
 
-void CJoinThread::Run()
+void CTimerThread::Run()
 {
 	while (true)
 	{
@@ -21,7 +19,6 @@ void CJoinThread::Run()
 		else // ¾Û Á¾·á
 		{
 			// ·Î±ë
-
 			break;
 		}
 	}

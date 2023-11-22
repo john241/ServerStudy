@@ -36,7 +36,7 @@
     <ClCompile Include="JoinThread.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
-    <ClCompile Include="MatchingThread.cpp">
+    <ClCompile Include="TimerThread.cpp">
       <Filter>Thread</Filter>
     </ClCompile>
     <ClCompile Include="Lock.cpp">
@@ -51,6 +51,15 @@
     <ClCompile Include="RoomManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AppManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchingFacade.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Thread.h">
@@ -59,7 +68,7 @@
     <ClInclude Include="JoinThread.h">
       <Filter>Thread</Filter>
     </ClInclude>
-    <ClInclude Include="MatchingThread.h">
+    <ClInclude Include="TimerThread.h">
       <Filter>Thread</Filter>
     </ClInclude>
     <ClInclude Include="Lock.h">
@@ -72,6 +81,15 @@
       <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="RoomManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="AppManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchingFacade.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

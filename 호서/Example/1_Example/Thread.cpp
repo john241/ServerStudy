@@ -2,6 +2,7 @@
 
 CThread::CThread()
 {
+	Start();
 }
 
 CThread::~CThread()
@@ -16,7 +17,10 @@ void CThread::Stop()
 
 void CThread::Join()
 {
-	m_Thread.join();
+	if (true == m_Thread.joinable())
+	{
+		m_Thread.join();
+	}
 }
 
 void CThread::Start()

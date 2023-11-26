@@ -54,13 +54,13 @@ void CRoom::OnDestroy()
 const bool CRoom::IsJoinable()
 {
 	CScopeLock lock(&m_RoomLock);
-	return m_PlayerList.size() < MAX_PLAYER_COUNT;
+	return m_PlayerList.size() < MAX_ENTRY_COUNT;
 }
 
 const bool CRoom::IsRunable()
 {
 	CScopeLock lock(&m_RoomLock);
-	return m_PlayerList.size() == MAX_PLAYER_COUNT;
+	return m_PlayerList.size() == MAX_ENTRY_COUNT;
 }
 
 void CRoom::Start()
@@ -78,7 +78,7 @@ void CRoom::End()
 	DWORD threadId = GetCurrentThreadId();
 
 	m_State = ERoomState::ERoomState_WAIT;
-
+	m_PlayerList.clear();
 	std::cout << "threadId : " << threadId << " Room( " << GetId() << " )" << " Room End " << std::endl;
 }
 

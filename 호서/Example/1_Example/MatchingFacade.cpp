@@ -6,6 +6,9 @@
 #include "Config.h"
 #include <vector>
 #include <iostream>
+#include "AppManager.h"
+
+static int g_EndPlayer = 0;
 
 namespace MatchingFacade
 {
@@ -19,6 +22,8 @@ namespace MatchingFacade
 			return;
 		}
 
+		CRoom* readyRoom = nullptr;
+
 		CRoomManager::GetInstance()->Foreach([&](CRoom* room) 
 		{
 			if (true == room->IsJoinable())
@@ -28,12 +33,7 @@ namespace MatchingFacade
 
 				if (true == room->IsRunable())
 				{
-					room->Start();
-
-					room->Foreach([](CPlayer* player)
-					{
-						player->Start();
-					});
+					readyRoom = room;
 				}
 
 				return true;
@@ -41,28 +41,55 @@ namespace MatchingFacade
 
 			return false;
 		});
+
+		if (nullptr != readyRoom)
+		{
+			readyRoom->Foreach([](CPlayer* player)
+			{
+				player->Start();
+			});
+
+			readyRoom->Start();
+		}
 	}
 
 	void RoomOnTimer()
 	{
-		CRoomManager::GetInstance()->Foreach([](CRoom* room)
+		std::vector<CPlayer*> reEnterList;
+		CRoomManager::GetInstance()->Foreach([&](CRoom* room)
 		{
 			if (true == room->IsFinish())
 			{
-				room->End();
-
-				room->Foreach([](CPlayer* player)
+				room->Foreach([&](CPlayer* player)
 				{
 					player->End();
 
 					if (false == player->IsExitable())
 					{
-						CPlayerManager::GetInstance()->PushPlayer(player);
+						reEnterList.push_back(player);
+					}
+					else
+					{
+						++g_EndPlayer;
 					}
 				});
+
+				room->End();
 			}
 
 			return false;
 		});
+
+
+		for (auto player : reEnterList)
+		{
+			CPlayerManager::GetInstance()->PushPlayer(player);
+		}
+
+		// 측정 종료
+		if (PLAYER_COUNT - MAX_ENTRY_COUNT <= g_EndPlayer)
+		{
+			CAppManager::GetInstance()->SetTerminated();
+		}
 	}
 }

@@ -9,7 +9,7 @@ CPlayerManager::CPlayerManager()
 {
 	//m_PlayerList.resize(1000);
 
-	for (int i = 0; i < MAX_PLAYER_COUNT; ++i)
+	for (int i = 0; i < PLAYER_COUNT; ++i)
 	{
 		m_PlayerList.emplace_back(new CPlayer());
 	}

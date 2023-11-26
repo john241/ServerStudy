@@ -1,6 +1,6 @@
 #define MAX_PLAY_COUNT 5
 
-#define MAX_PLAYER_COUNT 5
+#define MAX_ENTRY_COUNT 5
 
 #define ROOM_WAIT_TICK 100
 

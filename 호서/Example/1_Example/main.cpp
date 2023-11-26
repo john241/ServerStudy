@@ -3,6 +3,8 @@
 #include "AppManager.h"
 #include "JoinThread.h"
 #include "TimerThread.h"
+#include "Timer.h"
+#include <iostream>
 
 int main()
 {
@@ -12,6 +14,8 @@ int main()
 
 	const int coreNum = std::thread::hardware_concurrency();
 
+	CTimer timer;
+	timer.Start();
 	// JoinThread 세팅
 	{
 		// 이거 resize 후 index 접근, emplace_back, push_back 성능 확인해보자
@@ -41,11 +45,13 @@ int main()
 
 	// TimerThread 대기
 	{
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < 1; ++i)
 		{
 			g_TimerThreadList[i]->Join();
 		}
 	}
+
+	std::cout << "program Duration : " << timer.Duration() << " ms " << std::endl;
 
 	return 0;
 }

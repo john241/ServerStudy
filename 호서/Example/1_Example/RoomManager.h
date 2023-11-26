@@ -1,6 +1,7 @@
 #pragma once
 #include "Lock.h"
 #include <vector>
+#include <functional>
 
 class CRoom;
 class CRoomManager
@@ -24,9 +25,11 @@ public:
 		return instance;
 	}
 
-private:
-	std::vector<CRoom*> m_RoomList;
+public:
+	void Foreach(std::function<bool(CRoom*)> func);
+	void StartRoom();
 
 private:
+	std::vector<CRoom*> m_RoomList;
 	CLock m_RoomLock;
 };

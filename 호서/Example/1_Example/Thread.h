@@ -1,5 +1,6 @@
 #pragma once
 #include <thread>
+#include <string>
 
 class CThread
 {
@@ -14,7 +15,7 @@ public:
 	void Stop();
 	void Join();
 	void Start();
-
+	void SetName(std::string name);
 protected:
 	std::thread m_Thread;
 };

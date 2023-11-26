@@ -1,6 +1,6 @@
 #include "JoinThread.h"
 #include "AppManager.h"
-#include "PlayerManager.h"
+#include "MatchingFacade.h"
 
 CJoinThread::CJoinThread()
 {
@@ -16,7 +16,7 @@ void CJoinThread::Run()
 	{
 		if (!CAppManager::GetInstance()->IsTerminated())
 		{
-
+			MatchingFacade::MatchingOnce();
 		}
 		else // ¾Û Á¾·á
 		{

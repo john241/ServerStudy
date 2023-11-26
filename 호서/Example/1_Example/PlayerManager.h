@@ -1,5 +1,7 @@
 #pragma once
-#include <vector>
+#include <list>
+#include "Lock.h"
+#include <functional>
 
 class CPlayer;
 class CPlayerManager
@@ -23,8 +25,14 @@ public:
 		return instance;
 	}
 
-private:
-	std::vector<CPlayer*> m_PlayerList;
+public:
+	CPlayer* PopPlayer();
+	void PushPlayer(CPlayer* player);
 
+	void Foreach(std::function<bool(CPlayer*)> func);
+
+private:
+	CLock m_Lock;
+	std::list<CPlayer*> m_PlayerList;
 };
 

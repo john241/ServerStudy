@@ -148,6 +148,7 @@
     <ClCompile Include="JoinThread.cpp" />
     <ClCompile Include="Lock.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TimerThread.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
@@ -157,9 +158,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppManager.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="JoinThread.h" />
     <ClInclude Include="Lock.h" />
     <ClInclude Include="MatchingFacade.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="TimerThread.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />

@@ -25,7 +25,7 @@ int main()
 	// TimerThread 세팅
 	{
 		//g_TimerThreadList.resize(2);
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < 1; ++i)
 		{
 			g_TimerThreadList.emplace_back(new CTimerThread());
 		}

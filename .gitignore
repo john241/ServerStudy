@@ -40,3 +40,5 @@
 *.pdb
 *.lastbuildstate
 *.tlog
+*.enc
+호서/Example/.vs/

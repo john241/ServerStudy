@@ -7,33 +7,38 @@
 #include <vector>
 #include <iostream>
 #include "AppManager.h"
-
-static int g_EndPlayer = 0;
+#include <list>
 
 namespace MatchingFacade
 {
-	void MatchingOnce()
+	void MatchingOnce(int threadId)
 	{
-		DWORD threadId = GetCurrentThreadId();
-		CPlayer* newPlayer = CPlayerManager::GetInstance()->PopPlayer();
+		std::list<CPlayer*> newList;
 
-		if (nullptr == newPlayer)
+		CPlayerManager::GetInstance()->PopPlayerList(newList);
+
+		if (true == newList.empty())
 		{
+			// 아직 할 수 없다.
 			return;
 		}
 
-		CRoom* readyRoom = nullptr;
-
-		CRoomManager::GetInstance()->Foreach([&](CRoom* room) 
+		CRoomManager::GetInstance()->Foreach(threadId, [&](CRoom* room)
 		{
+			CScopeLock roomLock(room->GetLock());
+
 			if (true == room->IsJoinable())
 			{
-				std::cout << "threadId : " << threadId << ", player( " << newPlayer->GetId() << " ) Room( " << room->GetId() << " ) Add Player And Check Room" << std::endl;
-				room->AddPlayer(newPlayer);
+				room->AddPlayer(newList);
 
 				if (true == room->IsRunable())
 				{
-					readyRoom = room;
+					room->Foreach([](CPlayer* player)
+					{
+						player->Start();
+					});
+
+					room->Start();
 				}
 
 				return true;
@@ -42,54 +47,57 @@ namespace MatchingFacade
 			return false;
 		});
 
-		if (nullptr != readyRoom)
+		// 남은거 다시 넣기
+		for (auto itor = newList.begin(); itor != newList.end(); )
 		{
-			readyRoom->Foreach([](CPlayer* player)
-			{
-				player->Start();
-			});
+			CPlayer* player = *itor;
 
-			readyRoom->Start();
+			CPlayerManager::GetInstance()->PushPlayer(player);
 		}
 	}
 
-	void RoomOnTimer()
+	void RoomOnTimer(int threadId)
 	{
-		std::vector<CPlayer*> reEnterList;
-		CRoomManager::GetInstance()->Foreach([&](CRoom* room)
+		// 종료 관리
 		{
-			if (true == room->IsFinish())
+			int finishCount = 0;
+			std::vector<CPlayer*> reEnterList;
+			CRoomManager::GetInstance()->Foreach(threadId, [&](CRoom* room)
 			{
-				room->Foreach([&](CPlayer* player)
+				if (true == room->IsFinish())
 				{
-					player->End();
+					CScopeLock roomLock(room->GetLock());
 
-					if (false == player->IsExitable())
+					room->Foreach([&](CPlayer* player)
 					{
-						reEnterList.push_back(player);
-					}
-					else
-					{
-						++g_EndPlayer;
-					}
-				});
+						player->End();
 
-				room->End();
+						if (false == player->IsExitable())
+						{
+							reEnterList.push_back(player);
+						}
+						else
+						{
+							++finishCount;
+						}
+					});
+
+					room->End();
+				}
+
+				return false;
+			});
+
+			if (true == CPlayerManager::GetInstance()->AddFinishCount(finishCount))
+			{
+				// 측정 종료
+				CAppManager::GetInstance()->SetTerminated();
 			}
 
-			return false;
-		});
-
-
-		for (auto player : reEnterList)
-		{
-			CPlayerManager::GetInstance()->PushPlayer(player);
-		}
-
-		// 측정 종료
-		if (PLAYER_COUNT - MAX_ENTRY_COUNT <= g_EndPlayer)
-		{
-			CAppManager::GetInstance()->SetTerminated();
+			for (auto player : reEnterList)
+			{
+				CPlayerManager::GetInstance()->PushPlayer(player);
+			}
 		}
 	}
 }

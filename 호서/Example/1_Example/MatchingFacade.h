@@ -2,7 +2,7 @@
 
 namespace MatchingFacade
 {
-	void MatchingOnce();
+	void MatchingOnce(int threadId);
 
-	void RoomOnTimer();
+	void RoomOnTimer(int threadId);
 }

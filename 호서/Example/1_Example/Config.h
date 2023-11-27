@@ -9,3 +9,8 @@
 #define PLAYER_COUNT 10000
 
 #define ROOM_COUNT 100
+
+
+#define JOIN_THREAD_COUNT 4
+
+#define TIMER_THREAD_COUNT 4

@@ -1,6 +1,5 @@
 #include "RoomManager.h"
 #include "Room.h"
-#include "Config.h"
 
 CRoomManager::CRoomManager()
 	: m_RoomLock()
@@ -10,30 +9,34 @@ CRoomManager::CRoomManager()
 	
 	for (int i = 0; i < ROOM_COUNT; ++i)
 	{
-		m_RoomList.emplace_back(new CRoom());
+		CRoom* newRoom = new CRoom();
+		int shardIndex = newRoom->GetId() % TIMER_THREAD_COUNT;
+
+		m_RoomList[shardIndex].emplace_back(newRoom);
 	}
 }
 
 CRoomManager::~CRoomManager()
 {
-	for (auto room : m_RoomList)
+	for (int i = 0; i < ROOM_COUNT; ++i)
 	{
-		room->OnDestroy();
-
-		delete room;
+		m_RoomList[i].clear();
 	}
-
-	m_RoomList.clear();
-	m_RoomList.shrink_to_fit();
 }
 
-void CRoomManager::Foreach(std::function<bool(CRoom*)> func)
+void CRoomManager::Foreach(const int threadId, std::function<bool(CRoom*)> func)
 {
-	CScopeLock lock(&m_RoomLock);
+	if (m_RoomList.size() <= threadId)
+	{
+		return;
+	}
+
+	//CScopeLock lock(&m_RoomLock);
 
 	bool result = false;
+	auto list = m_RoomList[threadId];
 
-	for (auto room : m_RoomList)
+	for (auto room : list)
 	{
 		result = func(room);
 

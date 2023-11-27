@@ -1,5 +1,5 @@
 #pragma once
-#include <list>
+#include <unordered_map>
 #include "Lock.h"
 #include <functional>
 
@@ -26,13 +26,14 @@ public:
 	}
 
 public:
-	CPlayer* PopPlayer();
+	void PopPlayerList(std::list<CPlayer*>& outList);
 	void PushPlayer(CPlayer* player);
 
 	void Foreach(std::function<bool(CPlayer*)> func);
-
+	bool AddFinishCount(const int num);
 private:
 	CLock m_Lock;
-	std::list<CPlayer*> m_PlayerList;
+	std::unordered_map<int, CPlayer*> m_PlayerList;
+	std::atomic<int> m_FinishCount;
 };
 

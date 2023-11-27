@@ -2,6 +2,7 @@
 #include "Config.h"
 #include "Player.h"
 #include <iostream>
+#include "AppManager.h"
 
 CRoom::CRoom()
 	: m_RoomLock()
@@ -20,20 +21,35 @@ CRoom::~CRoom()
 	m_PlayerList.clear();
 }
 
-void CRoom::AddPlayer(CPlayer* player)
+void CRoom::AddPlayer(std::list<CPlayer*>& list)
 {
-	CScopeLock lock(&m_RoomLock);
+	//CScopeLock lock(&m_RoomLock);
 
 	DWORD threadId = GetCurrentThreadId();
 
-	if (m_PlayerList.end() != m_PlayerList.find(player->GetId()))
+	for (auto itor = list.begin(); itor != list.end(); )
 	{
-		std::cout << "threadId : " << threadId << " Room( " << GetId() << " )" << " Player( " << player->GetId() << " )  Overlap " << std::endl;
-		return;
+		CPlayer* player = *itor;
+
+		//if (m_PlayerList.end() != m_PlayerList.find(player->GetId()))
+		//{
+		//	std::cout << "threadId : " << threadId << " Room( " << GetId() << " )" << " Player( " << player->GetId() << " )  Overlap Error" << std::endl;
+		//	CAppManager::GetInstance()->SetTerminated();
+		//	return;
+		//}
+
+
+		m_PlayerList.emplace(std::make_pair(player->GetId(), player));
+		itor = list.erase(itor);
+
+		std::cout << "threadId : " << threadId << ", player( " << player->GetId() << " ) Room( " << GetId() << " ) Add Player And Check Room" << std::endl;
+
+		if (MAX_ENTRY_COUNT <= m_PlayerList.size())
+		{
+			return;
+		}
+		//++itor;
 	}
-
-
-	m_PlayerList.emplace(std::make_pair(player->GetId(), player));
 }
 
 void CRoom::DeletePlayer()
@@ -53,19 +69,26 @@ void CRoom::OnDestroy()
 
 const bool CRoom::IsJoinable()
 {
-	CScopeLock lock(&m_RoomLock);
+	//CScopeLock lock(&m_RoomLock);
 	return m_PlayerList.size() < MAX_ENTRY_COUNT;
 }
 
 const bool CRoom::IsRunable()
 {
-	CScopeLock lock(&m_RoomLock);
+	//CScopeLock lock(&m_RoomLock);
 	return m_PlayerList.size() == MAX_ENTRY_COUNT;
 }
 
 void CRoom::Start()
 {
 	DWORD threadId = GetCurrentThreadId();
+
+	if (ERoomState::ERoomState_RUN == m_State)
+	{
+		std::cout << "threadId : " << threadId << " Room( " << GetId() << " )" << " Room Start Error" << std::endl;
+		CAppManager::GetInstance()->SetTerminated();
+		return;
+	}
 
 	m_State = ERoomState::ERoomState_RUN;
 	m_Timer.Start();
@@ -76,6 +99,13 @@ void CRoom::Start()
 void CRoom::End()
 {
 	DWORD threadId = GetCurrentThreadId();
+
+	if (ERoomState::ERoomState_WAIT == m_State)
+	{
+		std::cout << "threadId : " << threadId << " Room( " << GetId() << " )" << " Room End Error" << std::endl;
+		CAppManager::GetInstance()->SetTerminated();
+		return;
+	}
 
 	m_State = ERoomState::ERoomState_WAIT;
 	m_PlayerList.clear();
@@ -89,10 +119,15 @@ const bool CRoom::IsFinish()
 
 void CRoom::Foreach(std::function<void(CPlayer*)> func)
 {
-	CScopeLock lock(&m_RoomLock);
+	//CScopeLock lock(&m_RoomLock);
 
 	for (auto player : m_PlayerList)
 	{
 		func(player.second); 
 	}
+}
+
+CLock* CRoom::GetLock()
+{
+	return &m_RoomLock;
 }

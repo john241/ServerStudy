@@ -16,7 +16,9 @@ public:
 	void Join();
 	void Start();
 	void SetName(std::string name);
+
 protected:
 	std::thread m_Thread;
+	int m_Id;
 };
 

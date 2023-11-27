@@ -2,6 +2,8 @@
 #include <windows.h>
 
 CThread::CThread()
+	: m_Thread()
+	, m_Id(0)
 {
 	Start();
 }

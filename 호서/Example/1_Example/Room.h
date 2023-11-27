@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <functional>
+#include <list>
 
 enum class ERoomState
 {
@@ -19,7 +20,7 @@ public:
 	~CRoom();
 
 public:
-	void AddPlayer(CPlayer* player);
+	void AddPlayer(std::list<CPlayer*>& list);
 	void DeletePlayer();
 	const int GetId();
 	void OnDestroy();
@@ -29,6 +30,7 @@ public:
 	void End();
 	const bool IsFinish();
 	void Foreach(std::function<void(CPlayer*)> func);
+	CLock* GetLock();
 
 private:
 	std::unordered_map<int, CPlayer*> m_PlayerList;

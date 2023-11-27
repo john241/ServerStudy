@@ -2,6 +2,8 @@
 #include "Lock.h"
 #include <vector>
 #include <functional>
+#include "Config.h"
+#include <array>
 
 class CRoom;
 class CRoomManager
@@ -26,10 +28,11 @@ public:
 	}
 
 public:
-	void Foreach(std::function<bool(CRoom*)> func);
+	void Foreach( const int threadId, std::function<bool(CRoom*)> func);
 	void StartRoom();
 
 private:
-	std::vector<CRoom*> m_RoomList;
+	using LoomList = std::vector<CRoom*>;
+	std::array<LoomList, TIMER_THREAD_COUNT> m_RoomList;
 	CLock m_RoomLock;
 };

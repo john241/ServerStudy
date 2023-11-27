@@ -2,6 +2,7 @@
 #include "Config.h"
 #include <iostream>
 #include <Windows.h>
+#include "AppManager.h"
 
 CPlayer::CPlayer()
     : m_Id(0)
@@ -31,6 +32,13 @@ void CPlayer::Start()
 {
     DWORD threadId = GetCurrentThreadId();
 
+    if (EPlayerState::EPlayerState_RUN == m_State)
+    {
+        std::cout << "threadId : " << threadId << ", player( " << GetId() << " ) Start Error" << std::endl;
+        CAppManager::GetInstance()->SetTerminated();
+        return;
+    }
+
     m_State = EPlayerState::EPlayerState_RUN;
     std::cout << "threadId : " << threadId << ", player( " << GetId() << " ) Start "  << std::endl;
 }
@@ -38,6 +46,13 @@ void CPlayer::Start()
 void CPlayer::End()
 {
     DWORD threadId = GetCurrentThreadId();
+
+    if (EPlayerState::EPlayerState_WAIT == m_State)
+    {
+        std::cout << "threadId : " << threadId << ", player( " << GetId() << " ) End Error" << std::endl;
+        CAppManager::GetInstance()->SetTerminated();
+        return;
+    }
 
     m_State = EPlayerState::EPlayerState_WAIT;
     m_Timer.Start();

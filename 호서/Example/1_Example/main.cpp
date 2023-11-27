@@ -4,6 +4,7 @@
 #include "JoinThread.h"
 #include "TimerThread.h"
 #include "Timer.h"
+#include "Config.h"
 #include <iostream>
 
 int main()
@@ -20,7 +21,7 @@ int main()
 	{
 		// 이거 resize 후 index 접근, emplace_back, push_back 성능 확인해보자
 		//g_JoinThreadList.resize(coreNum * 2);
-		for (int i = 0; i < coreNum * 2; ++i)
+		for (int i = 0; i < JOIN_THREAD_COUNT; ++i)
 		{
 			g_JoinThreadList.emplace_back(new CJoinThread());
 		}
@@ -29,7 +30,7 @@ int main()
 	// TimerThread 세팅
 	{
 		//g_TimerThreadList.resize(2);
-		for (int i = 0; i < 1; ++i)
+		for (int i = 0; i < TIMER_THREAD_COUNT; ++i)
 		{
 			g_TimerThreadList.emplace_back(new CTimerThread());
 		}
@@ -37,7 +38,7 @@ int main()
 
 	// JoinThread 대기
 	{
-		for (int i = 0; i < coreNum * 2; ++i)
+		for (int i = 0; i < JOIN_THREAD_COUNT; ++i)
 		{
 			g_JoinThreadList[i]->Join();
 		}
@@ -45,7 +46,7 @@ int main()
 
 	// TimerThread 대기
 	{
-		for (int i = 0; i < 1; ++i)
+		for (int i = 0; i < TIMER_THREAD_COUNT; ++i)
 		{
 			g_TimerThreadList[i]->Join();
 		}

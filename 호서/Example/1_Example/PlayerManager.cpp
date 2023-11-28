@@ -25,6 +25,25 @@ CPlayerManager::~CPlayerManager()
 	m_PlayerList.clear();
 }
 
+void CPlayerManager::PopPlayerListNolock(std::list<CPlayer*>& outList)
+{
+	if (m_PlayerList.size() < MAX_ENTRY_COUNT)
+	{
+		return;
+	}
+
+	for (int i = 0; i < MAX_ENTRY_COUNT; ++i)
+	{
+		auto itor = m_PlayerList.begin();
+
+		CPlayer* player = itor->second;
+
+		outList.emplace_back(player);
+
+		m_PlayerList.erase(player->GetId());
+	}
+}
+
 void CPlayerManager::PopPlayerList(std::list<CPlayer*>& outList)
 {
 	CScopeLock lock(&m_Lock);

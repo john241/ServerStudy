@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppManager.cpp" />
+    <ClCompile Include="LoginThread.cpp" />
     <ClCompile Include="MatchingFacade.cpp" />
     <ClCompile Include="JoinThread.cpp" />
     <ClCompile Include="Lock.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="JoinThread.h" />
     <ClInclude Include="Lock.h" />
+    <ClInclude Include="LoginThread.h" />
     <ClInclude Include="MatchingFacade.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TimerThread.h" />

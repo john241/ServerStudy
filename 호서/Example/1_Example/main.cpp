@@ -3,6 +3,7 @@
 #include "AppManager.h"
 #include "JoinThread.h"
 #include "TimerThread.h"
+#include "LoginThread.h"
 #include "Timer.h"
 #include "Config.h"
 #include <iostream>
@@ -36,6 +37,14 @@ int main()
 		}
 	}
 
+	// LoginThread 세팅
+	{
+		for (int i = 0; i < 1; ++i)
+		{
+			g_LoginThreadList.emplace_back(new CLoginThread());
+		}
+	}
+
 	// JoinThread 대기
 	{
 		for (int i = 0; i < JOIN_THREAD_COUNT; ++i)
@@ -49,6 +58,14 @@ int main()
 		for (int i = 0; i < TIMER_THREAD_COUNT; ++i)
 		{
 			g_TimerThreadList[i]->Join();
+		}
+	}
+
+	// LoginThread 대기
+	{
+		for (int i = 0; i < 1; ++i)
+		{
+			g_LoginThreadList[i]->Join();
 		}
 	}
 

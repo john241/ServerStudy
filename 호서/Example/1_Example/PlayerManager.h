@@ -26,6 +26,7 @@ public:
 	}
 
 public:
+	void PopPlayerListNolock(std::list<CPlayer*>& outList);
 	void PopPlayerList(std::list<CPlayer*>& outList);
 	void PushPlayer(CPlayer* player);
 

@@ -1,0 +1,2 @@
+C:\Users\Jonggeon Lee\Documents\Visual Studio 2019\Projects\ServerStudy\ServerRoom\x64\Debug\ServerRoom.exe
+C:\Users\Jonggeon Lee\Documents\Visual Studio 2019\Projects\ServerStudy\ServerRoom\x64\Debug\ServerRoom.pdb

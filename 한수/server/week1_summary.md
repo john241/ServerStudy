@@ -14,7 +14,7 @@
 - 스레드는 프로세스에 비해 통신이 간단
 
 ## 스레드의 일생
-![01](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/week1_image1.jpg)
+![01](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week1_image1.jpg)
 
 ## 운영체제별 스레드 생성 함수
 <details>

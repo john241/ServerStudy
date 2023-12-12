@@ -19,6 +19,7 @@
   - 각 단말기는 고유한 주소를 갖는다
   - 데이터 단위 : 프레임(Frame)
   - 페이로드(Payload) : 보내고자하는 데이터
+    
     ![02](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week4_image2.jpg)
 
 - 계층 3
@@ -87,12 +88,17 @@
   - Sequence number 공식 = SEQ + (Data Size)
 
   - Stop and Wait ARQ : 송신측에서 1개의 프레임을 송신하고, 수신측에서 수신된 프레임의 에러 유무 판단에 따라 ACK or NAK(Negative Acknowledgement)를 보내는 방식
+    
     ![03](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week4_image3.png)
+    
   - Go-Back-n ARQ(슬라이딩 윈도우) : 전송된 프레임이 손상되거나 분실된 경우 또는 ACK 이 손실되어 TIME_OUT이 발생한 경우 확인된 마지막 프레임 이후로 모든 프레임을 재전송
+    
     ![04](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week4_image4.png)
+    
   - SR(Selective-Reject) ARQ : Go-Back-N ARQ 의 단점을 보완한 방식, 손상되거나 손실된 프레임만 재전송
     - 데이터 재정렬을 수행해야하며 별도의 버퍼를 필요
     - 수신 측에서는 이 버퍼로 데이터를 정렬
+      
     ![05](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week4_image5.png)
 
 ## 2.8 주로 사용하는 메시지 형식

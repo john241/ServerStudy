@@ -77,13 +77,23 @@
   - 흐름제어기능(Data flow control) : 상대방이 받았다는 응답이 올때까지 세그먼트를 보냄
   - 송수신을 위한 소켓을 따로 만들 필요가 없음
   - 스트림 형식이다보니 받을때마다 부분데이터라도 필요한 처리를 하면 됨
-  - Sequence number를 통하여 순서를 보장함, 수신자 측에서 데이터 청크(Data chunks)를 Sequence number 순서대로 잘 붙여주기만 하면됨
 
 ## 2.7 패킷 유실 시 UDP와 TCP에서 현상
 - UDP : 유실이 발생하면 데이터그램 자체가 유실
   - 평균 레이턴시 : 네트워크 기기의 레이턴시
 - TCP : 유실이 발생하면 중간에 지연 시간이 발생
   - 평균 레이턴시 : 네트워크 기기의 레이턴시 + 패킷 유실률 * 재전송 대기시간
+  - Sequence number를 통하여 순서를 보장함
+  - Sequence number 공식 = SEQ + (Data Size)
+
+  - Stop and Wait ARQ : 송신측에서 1개의 프레임을 송신하고, 수신측에서 수신된 프레임의 에러 유무 판단에 따라 ACK or NAK(Negative Acknowledgement)를 보내는 방식
+    ![03](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week4_image3.png)
+  - Go-Back-n ARQ(슬라이딩 윈도우) : 전송된 프레임이 손상되거나 분실된 경우 또는 ACK 이 손실되어 TIME_OUT이 발생한 경우 확인된 마지막 프레임 이후로 모든 프레임을 재전송
+    ![04](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week4_image4.png)
+  - SR(Selective-Reject) ARQ : Go-Back-N ARQ 의 단점을 보완한 방식, 손상되거나 손실된 프레임만 재전송
+    - 데이터 재정렬을 수행해야하며 별도의 버퍼를 필요
+    - 수신 측에서는 이 버퍼로 데이터를 정렬
+    ![05](https://github.com/Han-Ho-Study/ServerStudy/blob/main/한수/server/Image/week4_image5.png)
 
 ## 2.8 주로 사용하는 메시지 형식
 - 과거에는 메시지를 받는쪽에서 글자 검색을 하거나 구문 분석기(Parser)를 동원하였음
